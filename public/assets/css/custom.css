@@ -1,0 +1,35 @@
+.animated-text {
+    display: flex;
+    flex-direction: column;
+    font-family: monospace; /* Monospace font for hacker style */
+  }
+  
+  .text {
+    display: none; /* Start hidden */
+    white-space: nowrap; /* Prevents text from wrapping */
+    overflow: hidden; /* Hides overflowing text */
+    position: relative; /* Position relative to add the cursor */
+    font-size: 16px; /* Adjust font size as needed */
+  }
+  
+  .text::after {
+    content: "|"; /* Cursor character */
+    color: #00ff00; /* Hacker-style green color for the cursor */
+    animation: blink-cursor 0.7s steps(1) infinite; /* Blinking cursor animation */
+    display: inline; /* Align cursor with the text */
+    margin-left: 5px; /* Space between text and cursor */
+  }
+  
+  /* Keyframes for blinking cursor effect */
+  @keyframes blink-cursor {
+    0% {
+      opacity: 1; /* Cursor visible */
+    }
+    50% {
+      opacity: 0; /* Cursor disappears */
+    }
+    100% {
+      opacity: 1; /* Cursor visible again */
+    }
+  }
+  
