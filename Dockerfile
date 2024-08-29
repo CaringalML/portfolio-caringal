@@ -7,6 +7,10 @@ ENV PHP_OPCACHE_ENABLE_CLI=0
 ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS=1
 ENV PHP_OPCACHE_REVALIDATE_FREQ=1
 
+
+# Install Composer dependencies
+RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
+
 # Install dependencies.
 RUN apt-get update && apt-get install -y unzip libpq-dev libcurl4-gnutls-dev nginx libonig-dev
 
@@ -57,8 +61,6 @@ RUN chmod -R 775 storage
 RUN chmod -R 775 bootstrap/cache
 
 RUN chmod +x docker/entrypoint.sh
-# Install Composer dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 
 # Run the entrypoint file.
 ENTRYPOINT ["docker/entrypoint.sh"]
