@@ -57,6 +57,8 @@ RUN chmod -R 775 storage
 RUN chmod -R 775 bootstrap/cache
 
 RUN chmod +x docker/entrypoint.sh
+RUN composer clear-cache
+
 
 # Run the entrypoint file.
 ENTRYPOINT ["docker/entrypoint.sh"]
