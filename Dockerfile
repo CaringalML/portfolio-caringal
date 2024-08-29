@@ -7,10 +7,6 @@ ENV PHP_OPCACHE_ENABLE_CLI=0
 ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS=1
 ENV PHP_OPCACHE_REVALIDATE_FREQ=1
 
-
-# Install Composer dependencies
-RUN composer install 
-
 # Install dependencies.
 RUN apt-get update && apt-get install -y unzip libpq-dev libcurl4-gnutls-dev nginx libonig-dev
 
@@ -30,6 +26,9 @@ WORKDIR /var/www
 
 # Copy files from the current folder to the container's current folder (set in workdir).
 COPY --chown=www-data:www-data . .
+
+# Install Composer dependencies
+RUN composer install --no-dev --no-scripts --no-autoloader
 
 # Create laravel caching folders.
 RUN mkdir -p /var/www/storage/framework
@@ -59,6 +58,9 @@ RUN chown -R daemon:www-data storage
 RUN chown -R daemon:www-data bootstrap/cache
 RUN chmod -R 775 storage
 RUN chmod -R 775 bootstrap/cache
+
+# Generate optimized autoload files
+RUN composer dump-autoload --optimize
 
 RUN chmod +x docker/entrypoint.sh
 
