@@ -27,9 +27,6 @@ WORKDIR /var/www
 # Copy files from the current folder to the container's current folder (set in workdir).
 COPY --chown=www-data:www-data . .
 
-# Install Composer dependencies
-RUN composer install --no-dev --no-scripts --no-autoloader
-
 # Create laravel caching folders.
 RUN mkdir -p /var/www/storage/framework
 RUN mkdir -p /var/www/storage/framework/cache
@@ -59,10 +56,8 @@ RUN chown -R daemon:www-data bootstrap/cache
 RUN chmod -R 775 storage
 RUN chmod -R 775 bootstrap/cache
 
-# Generate optimized autoload files
-RUN composer dump-autoload --optimize
 
 RUN chmod +x docker/entrypoint.sh
 
 # Run the entrypoint file.
-ENTRYPOINT ["docker/entrypoint.sh"]
+ENTRYPOINT [ "docker/entrypoint.sh" ]
