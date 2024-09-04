@@ -105,13 +105,15 @@ RUN composer dump-autoload --optimize
 RUN mkdir -p /var/www/storage/framework/{sessions,views,cache}
 
 # Set permissions
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+RUN chown -R www-data:www-data /var/www
+RUN chmod -R 755 /var/www
 RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+
+# Make sure the entrypoint script is executable
+RUN chmod +x docker/entrypoint.sh
 
 # Switch to www-data user
 USER www-data
-
-RUN chmod +x docker/entrypoint.sh
 
 # Run the entrypoint file.
 ENTRYPOINT ["docker/entrypoint.sh"]
