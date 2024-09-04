@@ -1,4 +1,4 @@
-# Use PHP 8.2-fpm for the production build
+# Used for prod build.
 FROM php:8.2-fpm as php
 
 # Set environment variables
@@ -57,12 +57,8 @@ RUN chmod -R 775 storage
 RUN chmod -R 775 bootstrap/cache
 
 
-
-
-COPY --chown=www-data:www-data . .
-COPY --chown=www-data:www-data ./vendor ./vendor
-
-
+# Allow permission to access autoload.php
+RUN chmod +x vendor/autoload.php
 
 
 RUN chmod +x docker/entrypoint.sh
