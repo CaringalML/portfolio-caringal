@@ -96,21 +96,20 @@ COPY composer.json composer.lock ./
 RUN composer install --no-scripts --no-autoloader
 
 # Copy the rest of the application code
-COPY --chown=www-data:www-data . .
+COPY . .
 
 # Generate optimized autoloader
 RUN composer dump-autoload --optimize
 
-# Create laravel caching folders.
-RUN mkdir -p /var/www/storage/framework/{cache,testing,sessions,views}
+# Create Laravel storage directory structure if not exists
+RUN mkdir -p /var/www/storage/framework/{sessions,views,cache}
 
-# Fix files ownership and permissions
+# Set permissions
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
-# Adjust user permission & group
-RUN usermod --uid 1000 www-data
-RUN groupmod --gid 1001 www-data
+# Switch to www-data user
+USER www-data
 
 RUN chmod +x docker/entrypoint.sh
 
