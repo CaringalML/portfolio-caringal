@@ -81,11 +81,6 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql bcmath curl opcache mbstring
 # Copy composer executable.
 COPY --from=composer:2.3.5 /usr/bin/composer /usr/bin/composer
 
-# Copy configuration files.
-COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
-COPY ./docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
-COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
-
 # Set working directory to /var/www.
 WORKDIR /var/www
 
@@ -104,16 +99,28 @@ RUN composer dump-autoload --optimize
 # Create Laravel storage directory structure if not exists
 RUN mkdir -p /var/www/storage/framework/{sessions,views,cache}
 
+# Create necessary directories for Nginx
+RUN mkdir -p /var/lib/nginx/body /var/lib/nginx/fastcgi
+
 # Set permissions
-RUN chown -R www-data:www-data /var/www
+RUN chown -R www-data:www-data /var/www /var/lib/nginx
 RUN chmod -R 755 /var/www
 RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
+# Copy configuration files
+COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
+COPY ./docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
+COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
+
+# Remove the user directive from Nginx config
+RUN sed -i '/user/d' /etc/nginx/nginx.conf
+
 # Make sure the entrypoint script is executable
-RUN chmod +x docker/entrypoint.sh
+COPY docker/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-# Switch to www-data user
-USER www-data
+# Expose port 80
+EXPOSE 80
 
-# Run the entrypoint file.
-ENTRYPOINT ["docker/entrypoint.sh"]
+# Use the custom entrypoint script
+ENTRYPOINT ["/entrypoint.sh"]
