@@ -123,7 +123,7 @@
         <div class="container mt-5">
             <div class="row text-center text-md-left">
                 <div class="col-md-3">
-                <img src="{{ asset('assets/imgs/martin_barong.jpg') }}" alt="" class="img-thumbnail mb-4">
+                <img src="{{ asset('assets/imgs/barong.JPG') }}" alt="" class="img-thumbnail mb-4">
                 </div>
                 <div class="pl-md-4 col-md-9">
                     <h6 class="title">Martin Lawrence M. Caringal</h6>
