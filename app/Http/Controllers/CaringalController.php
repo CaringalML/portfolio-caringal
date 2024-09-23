@@ -8,16 +8,6 @@ use App\Models\Message;
 class CaringalController extends Controller
 {
     /**
-     * Show the index page.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return view('caringal.index');
-    }
-
-    /**
      * Handle the form submission.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -37,9 +27,7 @@ class CaringalController extends Controller
             'message' => $request->input('contact-message'),
         ]);
     
-        // Redirect back to the /caringal route with a success message, including the fragment identifier
-        return redirect()->route('caringal', ['#contact'])->with('success', 'Message sent successfully!');
+        // Redirect back to the root route with a success message, including the fragment identifier
+        return redirect('/#contact')->with('success', 'Message sent successfully!');
     }
-    
-
 }
