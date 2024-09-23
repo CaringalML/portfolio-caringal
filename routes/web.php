@@ -3,13 +3,28 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CaringalController;
 
-// Redirect root to /caringal
+// Define the root route to render the rence view
 Route::get('/', function () {
-    return redirect('/caringal');
-});
+    return view('contents.rence'); 
+})->name('home'); // Naming the root route
 
-// Define the /caringal route to use CaringalController
-Route::get('/caringal', [CaringalController::class, 'index'])->name('caringal');
+// Define the POST route for form submission at the root
+Route::post('/', [CaringalController::class, 'submitMessage'])->name('submit.message');
 
-// Define the POST route for form submission
-Route::post('/caringal/submit-message', [CaringalController::class, 'submitMessage'])->name('submit.message');
+Route::get('/blog1', function () {
+    return view('caringal.blogone');  // Render blog one content
+})->name('blog1');
+
+
+
+
+
+
+//testing pages
+Route::get('/home', function () {
+    return view('contents.home');  // Render home content from the 'contents' folder
+})->name('home.content');
+
+Route::get('/about', function () {
+    return view('contents.about');  // Render about content from the 'contents' folder
+})->name('about');

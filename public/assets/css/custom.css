@@ -32,4 +32,36 @@
       opacity: 1; /* Cursor visible again */
     }
   }
-  
+
+
+  .custom-hover:hover {
+    background-color: black;
+    border-color: black;
+}
+
+
+
+
+.centered-image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh; /* Increased height to give more space */
+  background-color: #f4f4f4; /* Optional background */
+  padding: 10px;
+}
+
+.image-container {
+  max-width: 98%; /* Make the image container almost full width */
+  max-height: 65vh; /* Increase the max-height to enlarge the image */
+}
+
+.image-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid #ccc;
+  margin: 5px; /* Reduced margin to maximize image size */
+  border-radius: 8px; /* Optional: round the corners of the image */
+}
+
